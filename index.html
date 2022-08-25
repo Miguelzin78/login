@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="estilo.css">
+  <title>Login</title>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
+
+  <script>
+    function handleCredentialResponse(response) {
+      const data = jwt_decode(response.credential)
+      console.log(data)
+
+      fullname.textContent = data.name
+      sub.textContent = data.sub
+      given_name.textContent = data.given_name
+      family_name = data.family_name
+      email.textContent = data.email
+      verifiedEmail.textContent = data.email_verified
+      picture.setAttribute("src", data.picture)
+    }
+
+    window.onload = function () {
+      google.accounts.id.initialize({
+        client_id: "471874956134-gcn7oeiai14jft1eub30bsrh0jc18139.apps.googleusercontent.com",
+        callback: handleCredentialResponse
+      });
+
+      google.accounts.id.renderButton(
+        document.getElementById("buttonDiv"), { 
+        theme:"filled_black",
+         size: "large",
+         type:"standard",
+         shape:"pill",
+         text:"$ {button.text}",
+         logo_alignment:"left",
+         }  // customization attributes
+      );
+
+      google.accounts.id.prompt(); // also display the One Tap dialog
+    }
+</script>
+
+</head>
+<body>
+  <div class="main-login">
+    <div class="left-login">
+      <h1>Faça o Cadastro!<br>E entre para o nosso time</h1>
+      <img src="astronaut.svg" class="left-login-image"alt="Astronaut animação">
+    </div>
+    <div class="right-login">
+      <div class="card-login">
+        <h1>LOGIN</h1>
+        <div class="textfield">
+          <label for="usuario">Usuário</label>
+          <input type="text" name="usuario" placeholder="Usuário">
+        </div>
+        <div class="textfield">
+          <label for="senha">Senha</label>
+          <input type="password" name="senha" placeholder="Senha">
+        </div>
+      <a href="https://magnificent-fox-dcdcb4.netlify.app/"><button  class="btn-login">Login</button></a>
+
+        <div id="buttonDiv"></div>  
+
+
+      </div>
+    </div>
+  </div>
+</body>
+</html>
